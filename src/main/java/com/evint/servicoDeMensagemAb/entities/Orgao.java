@@ -5,18 +5,18 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "usuario")
-public class Usuario implements Serializable {
+@Table(name = "orgao")
+public class Orgao implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -24,25 +24,21 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String cpf;
-	private String uf;
+	private String tipoDeOrgao;
 	
-	@ManyToMany
-	@JoinTable(name = "usuario_orgao", 
-	joinColumns = @JoinColumn(name = "usuario_id"),
-	inverseJoinColumns = @JoinColumn(name = "orgao_id"))
-	private Set<Orgao> orgaos = new HashSet<>();
+	@ManyToMany(mappedBy = "orgaos")
+	@JsonIgnore
+	private Set<Usuario> usuarios = new HashSet<>();
 	
-	public Usuario() {
+	public Orgao() {
 		
 	}
 
-	public Usuario(Long id, String nome, String cpf, String uf) {
+	public Orgao(Long id, String nome, String tipoDeOrgao) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.cpf = cpf;
-		this.uf = uf;
+		this.tipoDeOrgao = tipoDeOrgao;
 	}
 
 	public Long getId() {
@@ -53,34 +49,26 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getNome() {
 		return nome;
 	}
 
-	public void setName(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getTipoDeOrgao() {
+		return tipoDeOrgao;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setTipoDeOrgao(String tipoDeOrgao) {
+		this.tipoDeOrgao = tipoDeOrgao;
 	}
 
-	public String getUf() {
-		return uf;
+	public Set<Usuario> getUsuarios() {
+		return usuarios;
 	}
 
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
-
-	public Set<Orgao> getOrgaos() {
-		return orgaos;
-	}
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -94,7 +82,7 @@ public class Usuario implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		Orgao other = (Orgao) obj;
 		return Objects.equals(id, other.id);
 	}
 }
