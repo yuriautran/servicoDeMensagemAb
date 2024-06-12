@@ -39,8 +39,10 @@ public class TestConfig implements CommandLineRunner{
 		Orgao o3 = new Orgao(null, "PMSP", "Segurança Pública");
 		Orgao o4 = new Orgao(null, "ABIN", "Inteligência");
 		
+	
 		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3, u4, u5, u6, u7, u8));
 		orgaoRepository.saveAll(Arrays.asList(o1, o2, o3, o4));
+
 		
 		u1.getOrgaos().add(o1);
 		u2.getOrgaos().add(o1);
@@ -53,7 +55,6 @@ public class TestConfig implements CommandLineRunner{
 		u8.getOrgaos().add(o2);
 		u8.getOrgaos().add(o3);
 		
-		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3, u4, u5, u6, u7, u8));
-		
-		}
+		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3, u4, u5, u6, u7, u8));	
+	}
 }

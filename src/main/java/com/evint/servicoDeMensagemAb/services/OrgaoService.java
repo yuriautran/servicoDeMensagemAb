@@ -18,4 +18,8 @@ public class OrgaoService {
 	public List<Orgao> findAll(){
 		return repository.findAll();
 	}
+	
+	public Orgao findByNomeOrgao(String nome){
+		return repository.findByNomeIgnoreCase(nome);
+	}
 }

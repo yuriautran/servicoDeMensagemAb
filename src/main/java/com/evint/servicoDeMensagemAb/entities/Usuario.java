@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +33,9 @@ public class Usuario implements Serializable {
 	@JoinTable(name = "usuario_orgao", 
 	joinColumns = @JoinColumn(name = "usuario_id"),
 	inverseJoinColumns = @JoinColumn(name = "orgao_id"))
+	@JsonIgnore
 	private Set<Orgao> orgaos = new HashSet<>();
-	
+
 	public Usuario() {
 		
 	}
@@ -80,7 +83,7 @@ public class Usuario implements Serializable {
 	public Set<Orgao> getOrgaos() {
 		return orgaos;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

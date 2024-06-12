@@ -30,4 +30,5 @@ public class UsuarioResource {
 		List<Usuario> list = service.findByUf(uf);
 		return ResponseEntity.ok().body(list);
 	}
+	
 }
