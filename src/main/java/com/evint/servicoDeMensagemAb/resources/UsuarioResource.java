@@ -25,10 +25,15 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping(value = "/{uf}")
+	@GetMapping(value = "/uf/{uf}")
 	public ResponseEntity<List<Usuario>> findByUf(@PathVariable String uf) {
 		List<Usuario> list = service.findByUf(uf);
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<List<Usuario>> buscarPorOrgaoId(@PathVariable("id") Long id) {
+		List<Usuario> list = service.buscarPorOrgaoId(id);
+		return ResponseEntity.ok().body(list);
+	}
 }

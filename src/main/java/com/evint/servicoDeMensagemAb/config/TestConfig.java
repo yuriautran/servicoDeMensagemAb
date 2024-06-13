@@ -7,8 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.Orgao;
 import com.evint.servicoDeMensagemAb.entities.Usuario;
+import com.evint.servicoDeMensagemAb.repositories.MensagemRepository;
 import com.evint.servicoDeMensagemAb.repositories.OrgaoRepository;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioRepository;
 
@@ -21,6 +23,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private OrgaoRepository orgaoRepository;
+	
+	@Autowired
+	private MensagemRepository mensagemRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -39,10 +44,15 @@ public class TestConfig implements CommandLineRunner{
 		Orgao o3 = new Orgao(null, "PMSP", "Segurança Pública");
 		Orgao o4 = new Orgao(null, "ABIN", "Inteligência");
 		
+		Mensagem m1 = new Mensagem(null, "Manutenção no servidor", "Dia 03/07/2024 o sistema ficará inoperante para menutenção no servidor");
+		Mensagem m2 = new Mensagem(null, "Acesso indevido", "Identificamos acesso indevido para usuários do orgão ABIN");
+		Mensagem m3 = new Mensagem(null, "Atualização do sistema", "A partir de 01/07/2024, o Alerta Brasil contará com nova funcionalidade, aguardem");
+		Mensagem m4 = new Mensagem(null, "Exclusão de acesso", "O estado de SP não terá mais acesso ao sistema a partir de 01/07/2024. Motivo: fim do convênio");
+		Mensagem m5 = new Mensagem(null, "Atenção usuários SEFAZ-CE", "A PRF está solicitando nova documentação para acesso ao sistema. Atentem para seus email");
 	
 		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3, u4, u5, u6, u7, u8));
 		orgaoRepository.saveAll(Arrays.asList(o1, o2, o3, o4));
-
+		mensagemRepository.saveAll(Arrays.asList(m1, m2, m3, m4, m5));
 		
 		u1.getOrgaos().add(o1);
 		u2.getOrgaos().add(o1);
