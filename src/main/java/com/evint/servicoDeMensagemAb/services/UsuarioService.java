@@ -1,6 +1,5 @@
 package com.evint.servicoDeMensagemAb.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +26,9 @@ public class UsuarioService {
 	public List<Usuario> buscarPorOrgaoId(Long id){
 		return repository.buscarPorOrgaoId(id);
 	}
-
+	
+	public List<Usuario> buscarPorOrgaoNome(String nome) {
+		Long id = repository.buscarPorOrgaoNome(nome);
+		return buscarPorOrgaoId(id);
+	}
 }

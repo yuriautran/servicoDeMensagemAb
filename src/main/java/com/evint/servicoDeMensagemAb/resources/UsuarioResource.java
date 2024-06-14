@@ -31,9 +31,15 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/orgaos/{id}")
 	public ResponseEntity<List<Usuario>> buscarPorOrgaoId(@PathVariable("id") Long id) {
 		List<Usuario> list = service.buscarPorOrgaoId(id);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@GetMapping(value = "/orgaos/nome/{nome}")
+	public ResponseEntity<List<Usuario>> buscarPorOrgaoNome(@PathVariable("nome") String nome) {
+		List<Usuario> list = service.buscarPorOrgaoNome(nome);
 		return ResponseEntity.ok().body(list);
 	}
 }
