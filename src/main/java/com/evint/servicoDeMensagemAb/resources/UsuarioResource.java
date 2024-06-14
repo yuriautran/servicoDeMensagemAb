@@ -32,14 +32,14 @@ public class UsuarioResource {
 	}
 	
 	@GetMapping(value = "/orgaos/{id}")
-	public ResponseEntity<List<Usuario>> buscarPorOrgaoId(@PathVariable("id") Long id) {
-		List<Usuario> list = service.buscarPorOrgaoId(id);
+	public ResponseEntity<List<Usuario>> buscarUsuarioPorOrgaoId(@PathVariable("id") Long id) {
+		List<Usuario> list = service.buscarUsuarioPorOrgaoId(id);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/orgaos/nome/{nome}")
-	public ResponseEntity<List<Usuario>> buscarPorOrgaoNome(@PathVariable("nome") String nome) {
-		List<Usuario> list = service.buscarPorOrgaoNome(nome);
+	public ResponseEntity<List<Usuario>> buscarUsuarioPorOrgaoNome(@PathVariable("nome") String nome) {
+		List<Usuario> list = service.buscarUsuarioPorOrgaoNome(nome);
 		return ResponseEntity.ok().body(list);
 	}
 }

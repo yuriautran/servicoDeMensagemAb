@@ -23,12 +23,12 @@ public class UsuarioService {
 		return repository.findByUfIgnoreCase(uf);
 	}
 	
-	public List<Usuario> buscarPorOrgaoId(Long id){
-		return repository.buscarPorOrgaoId(id);
+	public List<Usuario> buscarUsuarioPorOrgaoId(Long id){
+		return repository.buscarUsuarioPorOrgaoId(id);
 	}
 	
-	public List<Usuario> buscarPorOrgaoNome(String nome) {
-		Long id = repository.buscarPorOrgaoNome(nome);
-		return buscarPorOrgaoId(id);
+	public List<Usuario> buscarUsuarioPorOrgaoNome(String nome) {
+		Long id = repository.buscarUsuarioPorOrgaoNome(nome);
+		return buscarUsuarioPorOrgaoId(id);
 	}
 }
