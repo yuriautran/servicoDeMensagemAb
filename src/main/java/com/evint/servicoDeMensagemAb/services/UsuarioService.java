@@ -15,20 +15,20 @@ public class UsuarioService {
 	private UsuarioRepository repository;
 	
 	
-	public List<Usuario> findAll(){
+	public List<Usuario> findAll() {
 		return repository.findAll();
 	}
 	
-	public List<Usuario> findByUf(String uf){
+	public List<Usuario> findByUf(String uf) {
 		return repository.findByUfIgnoreCase(uf);
 	}
 	
-	public List<Usuario> buscarUsuarioPorOrgaoId(Long id){
+	public List<Usuario> buscarUsuarioPorOrgaoId(Long id) {
 		return repository.buscarUsuarioPorOrgaoId(id);
 	}
 	
 	public List<Usuario> buscarUsuarioPorOrgaoNome(String nome) {
-		Long id = repository.buscarUsuarioPorOrgaoNome(nome);
-		return buscarUsuarioPorOrgaoId(id);
+		nome = nome.toUpperCase();
+		return repository.buscarUsuarioPorOrgaoNome(nome);
 	}
 }

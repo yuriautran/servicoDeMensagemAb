@@ -31,7 +31,7 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping(value = "/orgaos/{id}")
+	@GetMapping(value = "/orgaos/id/{id}")
 	public ResponseEntity<List<Usuario>> buscarUsuarioPorOrgaoId(@PathVariable("id") Long id) {
 		List<Usuario> list = service.buscarUsuarioPorOrgaoId(id);
 		return ResponseEntity.ok().body(list);
