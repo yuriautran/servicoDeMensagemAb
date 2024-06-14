@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.Orgao;
 import com.evint.servicoDeMensagemAb.services.OrgaoService;
 
@@ -25,10 +26,18 @@ public class OrgaoResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@GetMapping(value = "/id/{id}")
+	public ResponseEntity<Orgao> findById(@PathVariable("id") Long id) {
+		Orgao org = service.findById(id);
+		return ResponseEntity.ok().body(org);
+	}
+	
 	@GetMapping(value = "/{nome}")
 	public ResponseEntity<Orgao> findByNomeOrgao(@PathVariable String nome) {
 		Orgao org = service.findByNomeOrgao(nome);
 		return ResponseEntity.ok().body(org);
 	}
+	
+	
 	
 }
