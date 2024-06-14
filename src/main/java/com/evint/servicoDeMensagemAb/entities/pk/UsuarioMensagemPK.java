@@ -21,7 +21,7 @@ public class UsuarioMensagemPK implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "mensagem_id")
-	private Mensagem mensgem;
+	private Mensagem mensagem;
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -30,15 +30,15 @@ public class UsuarioMensagemPK implements Serializable {
 		this.usuario = usuario;
 	}
 	public Mensagem getMensgem() {
-		return mensgem;
+		return mensagem;
 	}
 	public void setMensgem(Mensagem mensgem) {
-		this.mensgem = mensgem;
+		this.mensagem = mensgem;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(mensgem, usuario);
+		return Objects.hash(mensagem, usuario);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -49,6 +49,6 @@ public class UsuarioMensagemPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		UsuarioMensagemPK other = (UsuarioMensagemPK) obj;
-		return Objects.equals(mensgem, other.mensgem) && Objects.equals(usuario, other.usuario);
+		return Objects.equals(mensagem, other.mensagem) && Objects.equals(usuario, other.usuario);
 	}
 }

@@ -17,7 +17,7 @@ public class UsuarioMensagem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private UsuarioMensagemPK id; //Atributo identificador (criado através de uma classe auxiliar "UsuarioMensagemPK
+	private UsuarioMensagemPK id = new UsuarioMensagemPK(); //Atributo identificador (criado através de uma classe auxiliar "UsuarioMensagemPK
 	
 	private Instant dataEntrega;
 	private Instant dataLeitura;

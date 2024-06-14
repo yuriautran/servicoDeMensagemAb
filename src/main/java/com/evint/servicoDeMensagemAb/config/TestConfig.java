@@ -10,8 +10,10 @@ import org.springframework.context.annotation.Profile;
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.Orgao;
 import com.evint.servicoDeMensagemAb.entities.Usuario;
+import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
 import com.evint.servicoDeMensagemAb.repositories.MensagemRepository;
 import com.evint.servicoDeMensagemAb.repositories.OrgaoRepository;
+import com.evint.servicoDeMensagemAb.repositories.UsuarioMensagemRepository;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioRepository;
 
 @Configuration
@@ -26,6 +28,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private MensagemRepository mensagemRepository;
+	
+	@Autowired
+	private UsuarioMensagemRepository usuarioMensagem;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -53,6 +58,22 @@ public class TestConfig implements CommandLineRunner{
 		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3, u4, u5, u6, u7, u8));
 		orgaoRepository.saveAll(Arrays.asList(o1, o2, o3, o4));
 		mensagemRepository.saveAll(Arrays.asList(m1, m2, m3, m4, m5));
+		
+		UsuarioMensagem um1 = new UsuarioMensagem(u1, m1, null, null, null);
+		UsuarioMensagem um2 = new UsuarioMensagem(u2, m1, null, null, null);
+		UsuarioMensagem um3 = new UsuarioMensagem(u6, m1, null, null, null);
+		UsuarioMensagem um4 = new UsuarioMensagem(u3, m2, null, null, null);
+		UsuarioMensagem um5 = new UsuarioMensagem(u4, m3, null, null, null);
+		UsuarioMensagem um6 = new UsuarioMensagem(u1, m3, null, null, null);
+		UsuarioMensagem um7 = new UsuarioMensagem(u3, m3, null, null, null);
+		UsuarioMensagem um8 = new UsuarioMensagem(u3, m4, null, null, null);
+		UsuarioMensagem um9 = new UsuarioMensagem(u5, m4, null, null, null);
+		UsuarioMensagem um10 = new UsuarioMensagem(u7, m4, null, null, null);
+		UsuarioMensagem um11 = new UsuarioMensagem(u8, m4, null, null, null);
+		UsuarioMensagem um12 = new UsuarioMensagem(u6, m5, null, null, null);
+		UsuarioMensagem um13 = new UsuarioMensagem(u8, m5, null, null, null);
+		
+		usuarioMensagem.saveAll(Arrays.asList(um1, um2, um3, um4, um5, um6, um7, um8, um9, um10, um11, um12, um13));
 		
 		u1.getOrgaos().add(o1);
 		u2.getOrgaos().add(o1);
