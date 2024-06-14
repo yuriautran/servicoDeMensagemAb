@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.evint.servicoDeMensagemAb.entities.pk.UsuarioMensagemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -36,6 +37,7 @@ public class UsuarioMensagem implements Serializable {
 		this.dataExclusao = dataExclusao;
 	}
 	
+	@JsonIgnore
 	public Usuario getUsuario() {
 		return id.getUsuario();
 	}
@@ -44,6 +46,7 @@ public class UsuarioMensagem implements Serializable {
 		id.setUsuario(usuario);
 	}
 	
+	@JsonIgnore
 	public Mensagem getMensagem() {
 		return id.getMensgem();
 	}

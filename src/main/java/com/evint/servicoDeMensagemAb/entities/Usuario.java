@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,6 +29,9 @@ public class Usuario implements Serializable {
 	private String nome;
 	private String cpf;
 	private String uf;
+	
+	@OneToMany(mappedBy = "id.usuario")
+	private Set<UsuarioMensagem> usuarioMensagens = new HashSet<>();
 	
 	@ManyToMany
 	@JoinTable(name = "usuario_orgao", 
@@ -82,6 +86,14 @@ public class Usuario implements Serializable {
 
 	public Set<Orgao> getOrgaos() {
 		return orgaos;
+	}
+	
+	public Set<Mensagem> getMensagens() {
+		Set<Mensagem> set = new HashSet<>();
+		for (UsuarioMensagem um : usuarioMensagens) {
+			set.add(um.getMensagem());
+		} 
+		return set;
 	}
 
 	@Override
