@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.evint.servicoDeMensagemAb.entities.pk.UsuarioMensagemPK;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
@@ -20,8 +21,11 @@ public class UsuarioMensagem implements Serializable {
 	@EmbeddedId
 	private UsuarioMensagemPK id = new UsuarioMensagemPK(); //Atributo identificador (criado através de uma classe auxiliar "UsuarioMensagemPK
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant dataEntrega;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant dataLeitura;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant dataExclusao;
 
 	public UsuarioMensagem() {

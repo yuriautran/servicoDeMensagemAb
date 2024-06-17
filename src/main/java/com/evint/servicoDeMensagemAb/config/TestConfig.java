@@ -1,5 +1,6 @@
 package com.evint.servicoDeMensagemAb.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,19 +60,19 @@ public class TestConfig implements CommandLineRunner{
 		orgaoRepository.saveAll(Arrays.asList(o1, o2, o3, o4));
 		mensagemRepository.saveAll(Arrays.asList(m1, m2, m3, m4, m5));
 		
-		UsuarioMensagem um1 = new UsuarioMensagem(u1, m1, null, null, null);
-		UsuarioMensagem um2 = new UsuarioMensagem(u2, m1, null, null, null);
-		UsuarioMensagem um3 = new UsuarioMensagem(u6, m1, null, null, null);
-		UsuarioMensagem um4 = new UsuarioMensagem(u3, m2, null, null, null);
-		UsuarioMensagem um5 = new UsuarioMensagem(u4, m3, null, null, null);
-		UsuarioMensagem um6 = new UsuarioMensagem(u1, m3, null, null, null);
-		UsuarioMensagem um7 = new UsuarioMensagem(u3, m3, null, null, null);
-		UsuarioMensagem um8 = new UsuarioMensagem(u3, m4, null, null, null);
-		UsuarioMensagem um9 = new UsuarioMensagem(u5, m4, null, null, null);
-		UsuarioMensagem um10 = new UsuarioMensagem(u7, m4, null, null, null);
-		UsuarioMensagem um11 = new UsuarioMensagem(u8, m4, null, null, null);
-		UsuarioMensagem um12 = new UsuarioMensagem(u6, m5, null, null, null);
-		UsuarioMensagem um13 = new UsuarioMensagem(u8, m5, null, null, null);
+		UsuarioMensagem um1 = new UsuarioMensagem(u1, m1, Instant.parse("2024-06-20T12:30:00Z"), Instant.parse("2024-06-20T12:30:00Z"), null);
+		UsuarioMensagem um2 = new UsuarioMensagem(u2, m1, Instant.parse("2024-06-20T12:35:00Z"), Instant.parse("2024-06-21T12:36:00Z"), null);
+		UsuarioMensagem um3 = new UsuarioMensagem(u6, m1, Instant.parse("2024-06-20T08:00:00Z"), Instant.parse("2024-06-21T09:50:00Z"), Instant.parse("2024-06-21T10:00:00Z"));
+		UsuarioMensagem um4 = new UsuarioMensagem(u3, m2, Instant.parse("2024-06-20T08:00:00Z"), Instant.parse("2024-06-22T09:20:00Z"), Instant.parse("2024-06-23T12:45:00Z"));
+		UsuarioMensagem um5 = new UsuarioMensagem(u4, m3, Instant.parse("2024-06-20T18:00:00Z"), null, null);
+		UsuarioMensagem um6 = new UsuarioMensagem(u1, m3, Instant.parse("2024-06-25T17:00:00Z"), Instant.parse("2024-06-25T17:05:00Z"), null);
+		UsuarioMensagem um7 = new UsuarioMensagem(u3, m3, Instant.parse("2024-06-20T08:00:00Z"), null, null);
+		UsuarioMensagem um8 = new UsuarioMensagem(u3, m4, Instant.parse("2024-06-20T08:00:00Z"), null, null);
+		UsuarioMensagem um9 = new UsuarioMensagem(u5, m4, Instant.parse("2024-06-20T09:50:00Z"), null, null);
+		UsuarioMensagem um10 = new UsuarioMensagem(u7, m4, Instant.parse("2024-06-20T08:00:00Z"), Instant.parse("2024-06-20T08:10:00Z"), null);
+		UsuarioMensagem um11 = new UsuarioMensagem(u8, m4, Instant.parse("2024-06-15T08:00:00Z"), null, null);
+		UsuarioMensagem um12 = new UsuarioMensagem(u6, m5, Instant.parse("2024-06-15T08:00:00Z"), null, null);
+		UsuarioMensagem um13 = new UsuarioMensagem(u8, m5, Instant.parse("2024-06-15T08:00:00Z"), null, null);
 		
 		usuarioMensagem.saveAll(Arrays.asList(um1, um2, um3, um4, um5, um6, um7, um8, um9, um10, um11, um12, um13));
 		
