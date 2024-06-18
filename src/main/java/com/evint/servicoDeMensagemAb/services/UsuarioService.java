@@ -31,4 +31,9 @@ public class UsuarioService {
 		nome = nome.toUpperCase();
 		return repository.buscarUsuarioPorOrgaoNome(nome);
 	}
+
+	public List<Usuario> buscarUsuarioPorTipoDeOrgao(String tipoDeOrgao) {
+		tipoDeOrgao = tipoDeOrgao.toUpperCase();
+		return repository.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao);
+	}
 }

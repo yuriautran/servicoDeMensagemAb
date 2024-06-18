@@ -45,10 +45,10 @@ public class TestConfig implements CommandLineRunner{
 		Usuario u7 = new Usuario(null, "Heitor Azul", "125.314.455-95", "SP");
 		Usuario u8 = new Usuario(null, "Júlio Marrom", "393.574.919-88", "SP");
 		
-		Orgao o1 = new Orgao(null, "PMCE", "Segurança Pública");
-		Orgao o2 = new Orgao(null, "SEFAZ-CE", "Fazendário");
-		Orgao o3 = new Orgao(null, "PMSP", "Segurança Pública");
-		Orgao o4 = new Orgao(null, "ABIN", "Inteligência");
+		Orgao o1 = new Orgao(null, "PMCE", "SEGURANCA_PUBLICA");
+		Orgao o2 = new Orgao(null, "SEFAZ-CE", "FAZENDARIO");
+		Orgao o3 = new Orgao(null, "PMSP", "SEGURANCA_PUBLICA");
+		Orgao o4 = new Orgao(null, "ABIN", "INTELIGENCIA");
 		
 		Mensagem m1 = new Mensagem(null, "Manutenção no servidor", "Dia 03/07/2024 o sistema ficará inoperante para menutenção no servidor");
 		Mensagem m2 = new Mensagem(null, "Acesso indevido", "Identificamos acesso indevido para usuários do orgão ABIN");

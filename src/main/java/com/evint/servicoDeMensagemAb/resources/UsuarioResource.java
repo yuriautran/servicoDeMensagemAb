@@ -42,4 +42,11 @@ public class UsuarioResource {
 		List<Usuario> list = service.buscarUsuarioPorOrgaoNome(nome);
 		return ResponseEntity.ok().body(list);
 	}
+	
+	@GetMapping(value = "/orgaos/tipodeorgao/{tipodeorgao}")
+	public ResponseEntity<List<Usuario>> buscarUsuarioPorTipoDeOrgao(@PathVariable("tipodeorgao") String tipodeorgao) {
+		List<Usuario> list = service.buscarUsuarioPorTipoDeOrgao(tipodeorgao);
+		return ResponseEntity.ok().body(list);
+	}
+	
 }

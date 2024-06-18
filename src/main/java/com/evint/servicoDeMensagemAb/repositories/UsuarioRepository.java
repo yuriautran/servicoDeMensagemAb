@@ -26,4 +26,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 			+ " on o.ID = uo.ORGAO_ID"
 			+ " where o.NOME = :nome", nativeQuery = true)
 	List<Usuario> buscarUsuarioPorOrgaoNome(String nome);
+
+	@Query(value = "select u.ID, u.CPF, u.NOME, u.UF from USUARIO u"
+			+ " join USUARIO_ORGAO uo"
+			+ " on u.ID = uo.USUARIO_ID"
+			+ " join ORGAO o"
+			+ " on o.ID = uo.ORGAO_ID"
+			+ " where o.TIPO_DE_ORGAO = :tipoDeOrgao", nativeQuery = true)
+	List<Usuario> buscarUsuarioPorTipoDeOrgao(String tipoDeOrgao);
 }
