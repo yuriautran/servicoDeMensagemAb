@@ -57,7 +57,7 @@ public class MensagemService {
 	}
 
 	public void distribuirParaUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
-		Set<UsuarioMensagem> set = new HashSet<>();
+		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
 	
 		if(msgA.getEscopo().equalsIgnoreCase("orgao")) {
 			List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
@@ -68,7 +68,7 @@ public class MensagemService {
 				
 				for(Usuario u : listaUsuario) {
 					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-					set.add(um);
+					setUsuarioMensagem.add(um);
 				}
 			}
 		}
@@ -81,7 +81,7 @@ public class MensagemService {
 			
 				for(Usuario u : listaUsuario) {
 					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-					set.add(um);
+					setUsuarioMensagem.add(um);
 				}
 			}
 		}
@@ -94,12 +94,28 @@ public class MensagemService {
 			
 				for(Usuario u : listaUsuario) {
 					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-					set.add(um);
+					setUsuarioMensagem.add(um);
 				}
 			}
 		}
 		
-		UmRepository.saveAll(new ArrayList<>(set));
+		if(msgA.getEscopo().equalsIgnoreCase("idDoUsuario")) {
+			List<String> listaIdDoUsuario = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+			Set<Usuario> setUsuario = new HashSet<>();
+			
+			for(String stringId : listaIdDoUsuario) {
+				Long id = Long.parseLong(stringId);
+				Usuario usuario = service.findById(id);
+				setUsuario.add(usuario);
+			
+				for(Usuario u : setUsuario) {
+					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+					setUsuarioMensagem.add(um);
+				}
+			}
+		}
+		
+		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
 	}
 	
 	public Mensagem instanciarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {

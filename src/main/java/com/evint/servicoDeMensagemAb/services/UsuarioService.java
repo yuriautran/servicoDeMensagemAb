@@ -1,6 +1,7 @@
 package com.evint.servicoDeMensagemAb.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ public class UsuarioService {
 	
 	public List<Usuario> findAll() {
 		return repository.findAll();
+	}
+	
+	public Usuario findById(Long id) {
+		Optional<Usuario> usuario = repository.findById(id);
+		return usuario.get();
 	}
 	
 	public List<Usuario> findByUf(String uf) {
