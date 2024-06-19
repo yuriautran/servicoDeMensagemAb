@@ -1,6 +1,8 @@
 package com.evint.servicoDeMensagemAb.services;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -33,7 +35,7 @@ public class MensagemService {
 	private UsuarioService service;
 	
 	private UsuarioMensagem um = new UsuarioMensagem();
-	
+		
 	public List<Mensagem> findAll(){
 		return Repository.findAll();
 	}
@@ -54,7 +56,6 @@ public class MensagemService {
 		return msg;
 	}
 
-
 	public void distribuirParaUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
 		Set<UsuarioMensagem> set = new HashSet<>();
 	
@@ -65,6 +66,19 @@ public class MensagemService {
 				Long id = Long.parseLong(stringId);
 				List<Usuario> listaUsuario = service.buscarUsuarioPorOrgaoId(id);
 				
+				for(Usuario u : listaUsuario) {
+					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+					set.add(um);
+				}
+			}
+		}
+		
+		if(msgA.getEscopo().equals("tipoDeOrgao")) {
+			List<String> listaTipoDeOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+			
+			for(String tipoDeOrgao : listaTipoDeOrgao) {
+				List<Usuario> listaUsuario = service.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao);
+			
 				for(Usuario u : listaUsuario) {
 					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
 					set.add(um);
