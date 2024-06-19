@@ -2,7 +2,7 @@ package com.evint.servicoDeMensagemAb.services;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -57,67 +57,88 @@ public class MensagemService {
 	}
 
 	public void distribuirParaUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
-		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
 	
 		if(msgA.getEscopo().equalsIgnoreCase("orgao")) {
-			List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-			
-			for(String stringId : listaIds) {
-				Long id = Long.parseLong(stringId);
-				List<Usuario> listaUsuario = service.buscarUsuarioPorOrgaoId(id);
-				
-				for(Usuario u : listaUsuario) {
-					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-					setUsuarioMensagem.add(um);
-				}
-			}
+			distribuirParaUsuariosPorOrgao(msgA, msg);
 		}
 		
 		if(msgA.getEscopo().equalsIgnoreCase("tipoDeOrgao")) {
-			List<String> listaTipoDeOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-			
-			for(String tipoDeOrgao : listaTipoDeOrgao) {
-				List<Usuario> listaUsuario = service.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao);
-			
-				for(Usuario u : listaUsuario) {
-					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-					setUsuarioMensagem.add(um);
-				}
-			}
+			distribuirParaUsuariosPorTipoDeOrgao(msgA, msg);
 		}
 		
 		if(msgA.getEscopo().equalsIgnoreCase("uf")) {
-			List<String> listaUf = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-			
-			for(String uf : listaUf) {
-				List<Usuario> listaUsuario = service.findByUf(uf);
-			
-				for(Usuario u : listaUsuario) {
-					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-					setUsuarioMensagem.add(um);
-				}
-			}
+			distribuirParaUsuariosPorUf(msgA, msg);
 		}
 		
 		if(msgA.getEscopo().equalsIgnoreCase("idDoUsuario")) {
-			List<String> listaIdDoUsuario = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-			Set<Usuario> setUsuario = new HashSet<>();
+			distribuirParaUsuarioPorId(msgA, msg);
+		}
+	}
+	
+	private void distribuirParaUsuariosPorOrgao(MensagemAuxiliar msgA, Mensagem msg) {
+		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+		List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+		
+		for(String stringId : listaIds) {
+			Long id = Long.parseLong(stringId);
+			List<Usuario> listaUsuario = service.buscarUsuarioPorOrgaoId(id);
 			
-			for(String stringId : listaIdDoUsuario) {
-				Long id = Long.parseLong(stringId);
-				Usuario usuario = service.findById(id);
-				setUsuario.add(usuario);
-			
-				for(Usuario u : setUsuario) {
-					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-					setUsuarioMensagem.add(um);
-				}
+			for(Usuario u : listaUsuario) {
+				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+				setUsuarioMensagem.add(um);
 			}
 		}
+		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
+	}
+
+	private void distribuirParaUsuariosPorTipoDeOrgao(MensagemAuxiliar msgA, Mensagem msg) {
+		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+		List<String> listaTipoDeOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 		
+		for(String tipoDeOrgao : listaTipoDeOrgao) {
+			List<Usuario> listaUsuario = service.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao);
+		
+			for(Usuario u : listaUsuario) {
+				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+				setUsuarioMensagem.add(um);
+			}
+		}
 		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
 	}
 	
+	private void  distribuirParaUsuariosPorUf(MensagemAuxiliar msgA, Mensagem msg) {
+		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+		List<String> listaUf = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+		
+		for(String uf : listaUf) {
+			List<Usuario> listaUsuario = service.findByUf(uf);
+		
+			for(Usuario u : listaUsuario) {
+				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+				setUsuarioMensagem.add(um);
+			}
+		}
+		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
+	}
+	
+	private void distribuirParaUsuarioPorId(MensagemAuxiliar msgA, Mensagem msg) {
+		Set<Usuario> setUsuario = new HashSet<>();
+		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+		List<String> listaIdDoUsuario = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+		
+		for(String stringId : listaIdDoUsuario) {
+			Long id = Long.parseLong(stringId);
+			Usuario usuario = service.findById(id);
+			setUsuario.add(usuario);
+		
+			for(Usuario u : setUsuario) {
+				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+				setUsuarioMensagem.add(um);
+			}
+		}
+		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
+	}
+
 	public Mensagem instanciarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
 		Mensagem msg = new Mensagem();
 		msg.setDescricao(msgA.getDescricao());
