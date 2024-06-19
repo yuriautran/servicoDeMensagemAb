@@ -59,7 +59,7 @@ public class MensagemService {
 	public void distribuirParaUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
 		Set<UsuarioMensagem> set = new HashSet<>();
 	
-		if(msgA.getEscopo().equals("orgao")) {
+		if(msgA.getEscopo().equalsIgnoreCase("orgao")) {
 			List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 			
 			for(String stringId : listaIds) {
@@ -73,7 +73,7 @@ public class MensagemService {
 			}
 		}
 		
-		if(msgA.getEscopo().equals("tipoDeOrgao")) {
+		if(msgA.getEscopo().equalsIgnoreCase("tipoDeOrgao")) {
 			List<String> listaTipoDeOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 			
 			for(String tipoDeOrgao : listaTipoDeOrgao) {
@@ -85,6 +85,20 @@ public class MensagemService {
 				}
 			}
 		}
+		
+		if(msgA.getEscopo().equalsIgnoreCase("uf")) {
+			List<String> listaUf = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+			
+			for(String uf : listaUf) {
+				List<Usuario> listaUsuario = service.findByUf(uf);
+			
+				for(Usuario u : listaUsuario) {
+					um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+					set.add(um);
+				}
+			}
+		}
+		
 		UmRepository.saveAll(new ArrayList<>(set));
 	}
 	
