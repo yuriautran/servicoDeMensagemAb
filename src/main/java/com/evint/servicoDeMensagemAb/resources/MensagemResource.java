@@ -34,9 +34,15 @@ public class MensagemResource {
 		return ResponseEntity.ok().body(msg);
 	}
 	
+	@GetMapping(value = "/naolidas/usuarios/id/{id}")
+	public ResponseEntity<List<Mensagem>> buscarMensagensNaoLidas(@PathVariable("id") Long id) {
+		List<Mensagem> list = service.buscarMensagensNaoLidas(id);
+		return ResponseEntity.ok().body(list);
+	}
+	
 	@PostMapping
-	public ResponseEntity<Mensagem> salvarEEnviarMensagem(@RequestBody MensagemAuxiliar msgA) {
+	public ResponseEntity<String> salvarEEnviarMensagem(@RequestBody MensagemAuxiliar msgA) {
 		Mensagem msg = service.salvarMensagemDaMensagemAuxiliar(msgA);
-		return ResponseEntity.ok().body(msg);
+		return ResponseEntity.ok().body("Mensagem id " + msg.getId() + " salva e enviada para os usuários selecionados");
 	}
 } 

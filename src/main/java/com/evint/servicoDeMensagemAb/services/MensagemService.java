@@ -1,8 +1,6 @@
 package com.evint.servicoDeMensagemAb.services;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -29,8 +27,6 @@ public class MensagemService {
 	@Autowired
 	private UsuarioMensagemRepository UmRepository;
 	
-	private MensagemAuxiliar msgA = new MensagemAuxiliar();
-	
 	@Autowired
 	private UsuarioService service;
 	
@@ -40,6 +36,10 @@ public class MensagemService {
 		return Repository.findAll();
 	}
 	
+	public List<Mensagem> buscarMensagensNaoLidas(Long id) {
+		List<Mensagem> list = Repository.buscarMensagensNaoLidas(id);
+		return list;
+	}
 	
 	public Mensagem findById(Long id) {
 		Optional<Mensagem> msg = Repository.findById(id); 
