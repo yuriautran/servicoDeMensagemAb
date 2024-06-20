@@ -15,6 +15,7 @@ import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.Usuario;
 import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
+import com.evint.servicoDeMensagemAb.entities.json.MensagemDTO;
 import com.evint.servicoDeMensagemAb.repositories.MensagemRepository;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioMensagemRepository;
 
@@ -31,7 +32,29 @@ public class MensagemService {
 	private UsuarioService service;
 	
 	private UsuarioMensagem um = new UsuarioMensagem();
+	
+	public List<MensagemDTO> buscarMensagensNaoExcluidas(String cpf) {
+		Set<MensagemDTO> set = new HashSet<>();
+	
+		List<Mensagem> listM = Repository.retornarMensagensNaoExcluidas(cpf);
+		Mensagem[] vectM = new Mensagem[listM.size()];
+		listM.toArray(vectM);
 		
+		List<UsuarioMensagem> listUm = UmRepository.retornarUsuarioMensagensSemDataExclusao(cpf);
+		UsuarioMensagem[] vectUm = new UsuarioMensagem[listUm.size()];
+		listUm.toArray(vectUm);
+		
+		for(int i = 0; i < vectM.length; i++) {
+			for (int j = 0; j < vectUm.length; j++) {
+				if(i == j) {
+					MensagemDTO mDTO = new MensagemDTO(vectM[i], vectUm[j]);
+					set.add(mDTO);
+				}
+			}
+		}
+		return new ArrayList<>(set); 
+	}
+	
 	public List<Mensagem> findAll(){
 		return Repository.findAll();
 	}

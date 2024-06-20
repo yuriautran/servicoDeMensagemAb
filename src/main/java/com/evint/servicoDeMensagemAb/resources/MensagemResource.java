@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
+import com.evint.servicoDeMensagemAb.entities.json.MensagemDTO;
 import com.evint.servicoDeMensagemAb.services.MensagemService;
 
 @RestController
@@ -22,6 +23,12 @@ public class MensagemResource {
 	@Autowired
 	private MensagemService service;
 	
+	@GetMapping(value = "/naoexcluidas/cpf/{cpf}")
+	public ResponseEntity<List<MensagemDTO>> buscarMensagensNaoExcluidas(@PathVariable("cpf") String cpf) {
+		List<MensagemDTO> list = service.buscarMensagensNaoExcluidas(cpf);
+		return ResponseEntity.ok().body(list);
+	}
+
 	@GetMapping
 	public ResponseEntity<List<Mensagem>> findAll() {
 		List<Mensagem> list = service.findAll();
