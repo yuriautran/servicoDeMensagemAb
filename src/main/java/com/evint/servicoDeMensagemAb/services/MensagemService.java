@@ -80,86 +80,72 @@ public class MensagemService {
 	}
 
 	public void distribuirParaUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
-	
+		List<Usuario> list = new ArrayList<>();
+		Set<UsuarioMensagem> set = new HashSet<>();
+		
 		if(msgA.getEscopo().equalsIgnoreCase("orgao")) {
-			distribuirParaUsuariosPorOrgao(msgA, msg);
+			list = listaDeUsuariosPorOrgao(msgA);
+		} else {
+			if(msgA.getEscopo().equalsIgnoreCase("tipoDeOrgao")) {
+				list = listaDeUsuariosPorTipoDeOrgao(msgA);	
+			} else {
+				if(msgA.getEscopo().equalsIgnoreCase("uf")) {
+					list = listaDeUsuariosPorUf(msgA);
+				} else {
+					if(msgA.getEscopo().equalsIgnoreCase("idDoUsuario")) {
+						list = listaDeUsuarioPorId(msgA);
+					}
+				}
+			}
 		}
-		
-		if(msgA.getEscopo().equalsIgnoreCase("tipoDeOrgao")) {
-			distribuirParaUsuariosPorTipoDeOrgao(msgA, msg);
+		for(Usuario u : list) {
+			um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+			set.add(um);
 		}
-		
-		if(msgA.getEscopo().equalsIgnoreCase("uf")) {
-			distribuirParaUsuariosPorUf(msgA, msg);
-		}
-		
-		if(msgA.getEscopo().equalsIgnoreCase("idDoUsuario")) {
-			distribuirParaUsuarioPorId(msgA, msg);
-		}
+		UmRepository.saveAll(new ArrayList<>(set));
 	}
 	
-	private void distribuirParaUsuariosPorOrgao(MensagemAuxiliar msgA, Mensagem msg) {
-		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+	private List<Usuario> listaDeUsuariosPorOrgao(MensagemAuxiliar msgA) {
 		List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+		List<Usuario> listaUsuarioPorOrgao = new ArrayList<>();
 		
 		for(String stringId : listaIds) {
 			Long id = Long.parseLong(stringId);
-			List<Usuario> listaUsuario = service.buscarUsuarioPorOrgaoId(id);
-			
-			for(Usuario u : listaUsuario) {
-				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-				setUsuarioMensagem.add(um);
-			}
+			listaUsuarioPorOrgao.addAll(service.buscarUsuarioPorOrgaoId(id));
 		}
-		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
+		return listaUsuarioPorOrgao;
 	}
 
-	private void distribuirParaUsuariosPorTipoDeOrgao(MensagemAuxiliar msgA, Mensagem msg) {
-		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+	private List<Usuario> listaDeUsuariosPorTipoDeOrgao(MensagemAuxiliar msgA) {
 		List<String> listaTipoDeOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+		List<Usuario> listaUsuarioPorTipoDeOrgao = new ArrayList<>();
 		
 		for(String tipoDeOrgao : listaTipoDeOrgao) {
-			List<Usuario> listaUsuario = service.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao);
-		
-			for(Usuario u : listaUsuario) {
-				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-				setUsuarioMensagem.add(um);
-			}
+			listaUsuarioPorTipoDeOrgao.addAll(service.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao));
 		}
-		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
+		return listaUsuarioPorTipoDeOrgao;
 	}
 	
-	private void  distribuirParaUsuariosPorUf(MensagemAuxiliar msgA, Mensagem msg) {
-		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+	private List<Usuario> listaDeUsuariosPorUf(MensagemAuxiliar msgA) {
 		List<String> listaUf = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+		List<Usuario> listaUsuarioPorUf = new ArrayList<>();
 		
 		for(String uf : listaUf) {
-			List<Usuario> listaUsuario = service.findByUf(uf);
-		
-			for(Usuario u : listaUsuario) {
-				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-				setUsuarioMensagem.add(um);
-			}
+			listaUsuarioPorUf.addAll(service.findByUf(uf));
 		}
-		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
+		return listaUsuarioPorUf;
 	}
 	
-	private void distribuirParaUsuarioPorId(MensagemAuxiliar msgA, Mensagem msg) {
-		Set<Usuario> setUsuario = new HashSet<>();
-		Set<UsuarioMensagem> setUsuarioMensagem = new HashSet<>();
+	private List<Usuario> listaDeUsuarioPorId(MensagemAuxiliar msgA) {
 		List<String> listaIdDoUsuario = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-		
+		List<Usuario> listaUsuarioPorId = new ArrayList<>();
+
 		for(String stringId : listaIdDoUsuario) {
 			Long id = Long.parseLong(stringId);
 			Usuario usuario = service.findById(id);
-			setUsuario.add(usuario);
-		
-			for(Usuario u : setUsuario) {
-				um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-				setUsuarioMensagem.add(um);
-			}
+			listaUsuarioPorId.add(usuario);
 		}
-		UmRepository.saveAll(new ArrayList<>(setUsuarioMensagem));
+		return listaUsuarioPorId;
 	}
 
 	public Mensagem instanciarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
