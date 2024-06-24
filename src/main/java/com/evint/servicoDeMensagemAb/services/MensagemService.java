@@ -75,11 +75,11 @@ public class MensagemService {
 	
 	public Mensagem salvarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
 		Mensagem msg = Repository.save(instanciarMensagemDaMensagemAuxiliar(msgA));
-		distribuirParaUsuarios(msgA, msg);
+		criarESalvarUsuarioMensagem(msgA, msg);
 		return msg;
 	}
 
-	public void distribuirParaUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
+	public void criarESalvarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
 		List<Usuario> list = new ArrayList<>();
 		Set<UsuarioMensagem> set = new HashSet<>();
 		

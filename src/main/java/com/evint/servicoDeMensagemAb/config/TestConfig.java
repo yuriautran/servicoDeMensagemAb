@@ -36,14 +36,14 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Usuario u1 = new Usuario(null, "Alexandre Verde", "063335211-08", "CE");
-		Usuario u2 = new Usuario(null, "Breno Cinza", "916203341-78", "CE");
-		Usuario u3 = new Usuario(null, "Caio Azul", "752486435-38", "SP");
-		Usuario u4 = new Usuario(null, "Diego Preto", "468383733-19", "RJ");
-		Usuario u5 = new Usuario(null, "Francisco Amarelo", "766431477-19", "SP");
-		Usuario u6 = new Usuario(null, "Getúlio Roxo", "116732214-24", "CE");
-		Usuario u7 = new Usuario(null, "Heitor Azul", "125314455-95", "SP");
-		Usuario u8 = new Usuario(null, "Júlio Marrom", "393574919-88", "SP");
+		Usuario u1 = new Usuario(null, "Alexandre Verde", "06333521108", "CE");
+		Usuario u2 = new Usuario(null, "Breno Cinza", "91620334178", "CE");
+		Usuario u3 = new Usuario(null, "Caio Azul", "75248643538", "SP");
+		Usuario u4 = new Usuario(null, "Diego Preto", "46838373319", "RJ");
+		Usuario u5 = new Usuario(null, "Francisco Amarelo", "76643147719", "SP");
+		Usuario u6 = new Usuario(null, "Getúlio Roxo", "11673221424", "CE");
+		Usuario u7 = new Usuario(null, "Heitor Azul", "12531445595", "SP");
+		Usuario u8 = new Usuario(null, "Júlio Marrom", "39357491988", "SP");
 		
 		Orgao o1 = new Orgao(null, "PMCE", "SEGURANCA_PUBLICA");
 		Orgao o2 = new Orgao(null, "SEFAZ-CE", "FAZENDARIO");

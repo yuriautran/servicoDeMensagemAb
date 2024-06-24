@@ -12,11 +12,17 @@ import com.evint.servicoDeMensagemAb.entities.pk.UsuarioMensagemPK;
 @Repository
 public interface UsuarioMensagemRepository extends JpaRepository<UsuarioMensagem, UsuarioMensagemPK> {
 
-	@Query(value = "SELECT um.USUARIO_ID, um.MENSAGEM_ID, UM.DATA_ENTREGA, um.DATA_LEITURA, um.DATA_EXCLUSAO"
+	@Query(value = "SELECT um.USUARIO_ID, um.MENSAGEM_ID, um.DATA_ENTREGA, um.DATA_LEITURA, um.DATA_EXCLUSAO"
 			+ " FROM USUARIO_MENSAGEM um"
             + " JOIN MENSAGEM m ON m.ID = um.MENSAGEM_ID"
             + " JOIN USUARIO u ON u.ID = um.USUARIO_ID"
             + " WHERE u.CPF = :cpf"
             + " AND um.DATA_EXCLUSAO IS NULL", nativeQuery = true)
     List<UsuarioMensagem> retornarUsuarioMensagensSemDataExclusao(String cpf);
+
+	@Query(value = "SELECT um.USUARIO_ID, um.MENSAGEM_ID, um.DATA_ENTREGA, um.DATA_LEITURA, um.DATA_EXCLUSAO"
+			+ " FROM USUARIO_MENSAGEM um"
+			+ " WHERE um.USUARIO_ID = :idUsuario"
+			+ " AND um.MENSAGEM_ID = :idMensagem", nativeQuery = true)
+	UsuarioMensagem findById(Long idUsuario, Long idMensagem);
 }

@@ -23,12 +23,6 @@ public class MensagemResource {
 	@Autowired
 	private MensagemService service;
 	
-	@GetMapping(value = "/naoexcluidas/cpf/{cpf}")
-	public ResponseEntity<List<MensagemDTO>> buscarMensagensNaoExcluidas(@PathVariable("cpf") String cpf) {
-		List<MensagemDTO> list = service.buscarMensagensNaoExcluidas(cpf);
-		return ResponseEntity.ok().body(list);
-	}
-
 	@GetMapping
 	public ResponseEntity<List<Mensagem>> findAll() {
 		List<Mensagem> list = service.findAll();
@@ -39,6 +33,12 @@ public class MensagemResource {
 	public ResponseEntity<Mensagem> findById(@PathVariable("id") Long id) {
 		Mensagem msg = service.findById(id);
 		return ResponseEntity.ok().body(msg);
+	}
+	
+	@GetMapping(value = "/naoexcluidas/cpf/{cpf}")
+	public ResponseEntity<List<MensagemDTO>> buscarMensagensNaoExcluidas(@PathVariable("cpf") String cpf) {
+		List<MensagemDTO> list = service.buscarMensagensNaoExcluidas(cpf);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/naolidas/usuarios/id/{id}")
