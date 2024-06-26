@@ -88,6 +88,7 @@ public class Usuario implements Serializable {
 		return orgaos;
 	}
 	
+	@JsonIgnore
 	public Set<Mensagem> getMensagens() {
 		Set<Mensagem> set = new HashSet<>();
 		for (UsuarioMensagem um : usuarioMensagens) {

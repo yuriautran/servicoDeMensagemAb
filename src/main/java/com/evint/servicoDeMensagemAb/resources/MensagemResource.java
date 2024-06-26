@@ -48,8 +48,8 @@ public class MensagemResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> salvarEEnviarMensagem(@RequestBody MensagemAuxiliar msgA) {
-		Mensagem msg = service.salvarMensagemDaMensagemAuxiliar(msgA);
-		return ResponseEntity.ok().body("Mensagem id " + msg.getId() + " salva e enviada para os usuários selecionados");
+	public ResponseEntity<Mensagem> salvarEEnviarMensagem(@RequestBody MensagemAuxiliar msgA) {
+		Mensagem msg = service.CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(msgA);
+		return ResponseEntity.ok().body(msg);
 	}
 } 

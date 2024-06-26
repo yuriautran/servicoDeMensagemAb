@@ -64,7 +64,6 @@ public class Mensagem implements Serializable {
 		this.descricao = descricao;
 	}
 	
-	@JsonIgnore
 	public Set<UsuarioMensagem> getUsuarioMensagens() {
 		return usuarioMensagens; 
 	}

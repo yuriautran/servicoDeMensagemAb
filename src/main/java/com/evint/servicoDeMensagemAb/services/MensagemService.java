@@ -73,39 +73,41 @@ public class MensagemService {
 		return Repository.save(msg);
 	}
 	
-	public Mensagem salvarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
+	public Mensagem CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
 		Mensagem msg = Repository.save(instanciarMensagemDaMensagemAuxiliar(msgA));
-		criarESalvarUsuarioMensagem(msgA, msg);
+		Set<UsuarioMensagem> set = criarUsuarioMensagem(msgA, msg);
+		UmRepository.saveAll(new ArrayList<>(set));
 		return msg;
 	}
 
-	public void criarESalvarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
+	public Set<UsuarioMensagem> criarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
 		List<Usuario> list = new ArrayList<>();
 		Set<UsuarioMensagem> set = new HashSet<>();
 		
-		if(msgA.getEscopo().equalsIgnoreCase("orgao")) {
-			list = listaDeUsuariosPorOrgao(msgA);
-		} else {
-			if(msgA.getEscopo().equalsIgnoreCase("tipoDeOrgao")) {
-				list = listaDeUsuariosPorTipoDeOrgao(msgA);	
-			} else {
-				if(msgA.getEscopo().equalsIgnoreCase("uf")) {
-					list = listaDeUsuariosPorUf(msgA);
-				} else {
-					if(msgA.getEscopo().equalsIgnoreCase("idDoUsuario")) {
-						list = listaDeUsuarioPorId(msgA);
-					}
-				}
-			}
+		switch (msgA.getEscopo().toLowerCase()) {
+			case "orgao":
+				list = listaDeUsuariosPorOrgaoId(msgA);
+				break;
+			case "tipodeorgao":
+				list = listaDeUsuariosPorTipoDeOrgao(msgA);
+				break;
+			case "uf":
+				list = listaDeUsuariosPorUf(msgA);
+				break;
+			case "idusuario":
+				list = listaDeUsuarioPorId(msgA);
+				break;
+			default:
+				throw new IllegalArgumentException("Escopo desconhecido: " + msgA.getEscopo());
 		}
 		for(Usuario u : list) {
 			um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
 			set.add(um);
 		}
-		UmRepository.saveAll(new ArrayList<>(set));
+		return set;
 	}
 	
-	private List<Usuario> listaDeUsuariosPorOrgao(MensagemAuxiliar msgA) {
+	private List<Usuario> listaDeUsuariosPorOrgaoId(MensagemAuxiliar msgA) {
 		List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 		List<Usuario> listaUsuarioPorOrgao = new ArrayList<>();
 		

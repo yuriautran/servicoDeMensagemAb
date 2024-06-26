@@ -41,7 +41,6 @@ public class UsuarioMensagem implements Serializable {
 		this.dataExclusao = dataExclusao;
 	}
 	
-	@JsonIgnore
 	public Usuario getUsuario() {
 		return id.getUsuario();
 	}
