@@ -1,12 +1,19 @@
 package com.evint.servicoDeMensagemAb.services;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.evint.servicoDeMensagemAb.entities.Mensagem;
+import com.evint.servicoDeMensagemAb.entities.Usuario;
 import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
+import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioMensagemRepository;
 
 @Service
@@ -14,6 +21,9 @@ public class UsuarioMensagemService {
 	
 	@Autowired
 	private UsuarioMensagemRepository repository;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	public List<UsuarioMensagem> findAll(){
 		return repository.findAll();
@@ -37,5 +47,32 @@ public class UsuarioMensagemService {
 			um.setDataExclusao(Instant.now());	
 		} 
 		return repository.save(um);
+	}
+	
+	public void criarESalvarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
+		List<Usuario> list = new ArrayList<>();
+		Set<UsuarioMensagem> set = new HashSet<>();
+		
+		switch (msgA.getEscopo().toLowerCase()) {
+			case "orgao":
+				list = usuarioService.listaDeUsuariosPorOrgaoId(msgA);
+				break;
+			case "tipodeorgao":
+				list = usuarioService.listaDeUsuariosPorTipoDeOrgao(msgA);
+				break;
+			case "uf":
+				list = usuarioService.listaDeUsuariosPorUf(msgA);
+				break;
+			case "idusuario":
+				list = usuarioService.listaDeUsuarioPorId(msgA);
+				break;
+			default:
+				throw new IllegalArgumentException("Escopo desconhecido: " + msgA.getEscopo());
+		}
+		for(Usuario u : list) {
+			UsuarioMensagem um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
+			set.add(um);
+		}
+		repository.saveAll(new ArrayList<>(set));
 	}
 }

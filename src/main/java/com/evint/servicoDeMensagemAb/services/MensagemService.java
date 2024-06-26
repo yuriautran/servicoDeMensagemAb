@@ -1,8 +1,6 @@
 package com.evint.servicoDeMensagemAb.services;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
-import com.evint.servicoDeMensagemAb.entities.Usuario;
 import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemDTO;
@@ -23,24 +20,22 @@ import com.evint.servicoDeMensagemAb.repositories.UsuarioMensagemRepository;
 public class MensagemService {
 	
 	@Autowired
-	private MensagemRepository Repository;
+	private MensagemRepository repository;
 	
 	@Autowired
-	private UsuarioMensagemRepository UmRepository;
+	private UsuarioMensagemRepository uMRepository;
 	
 	@Autowired
-	private UsuarioService service;
-	
-	private UsuarioMensagem um = new UsuarioMensagem();
+	private UsuarioMensagemService uMService;
 	
 	public List<MensagemDTO> buscarMensagensNaoExcluidas(String cpf) {
 		Set<MensagemDTO> set = new HashSet<>();
 	
-		List<Mensagem> listM = Repository.retornarMensagensNaoExcluidas(cpf);
+		List<Mensagem> listM = repository.retornarMensagensNaoExcluidas(cpf);
 		Mensagem[] vectM = new Mensagem[listM.size()];
 		listM.toArray(vectM);
 		
-		List<UsuarioMensagem> listUm = UmRepository.retornarUsuarioMensagensSemDataExclusao(cpf);
+		List<UsuarioMensagem> listUm = uMRepository.retornarUsuarioMensagensSemDataExclusao(cpf);
 		UsuarioMensagem[] vectUm = new UsuarioMensagem[listUm.size()];
 		listUm.toArray(vectUm);
 		
@@ -56,100 +51,30 @@ public class MensagemService {
 	}
 	
 	public List<Mensagem> findAll(){
-		return Repository.findAll();
+		return repository.findAll();
 	}
 	
 	public List<Mensagem> buscarMensagensNaoLidas(Long id) {
-		List<Mensagem> list = Repository.buscarMensagensNaoLidas(id);
+		List<Mensagem> list = repository.buscarMensagensNaoLidas(id);
 		return list;
 	}
 	
 	public Mensagem findById(Long id) {
-		Optional<Mensagem> msg = Repository.findById(id); 
+		Optional<Mensagem> msg = repository.findById(id); 
 		return msg.get();
 	}
 	
 	public Mensagem salvarMensagem(Mensagem msg) {
-		return Repository.save(msg);
+		return repository.save(msg);
 	}
 	
 	public Mensagem CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
-		Mensagem msg = Repository.save(instanciarMensagemDaMensagemAuxiliar(msgA));
-		Set<UsuarioMensagem> set = criarUsuarioMensagem(msgA, msg);
-		UmRepository.saveAll(new ArrayList<>(set));
+		Mensagem msg = repository.save(instanciarMensagemDaMensagemAuxiliar(msgA));
+		uMService.criarESalvarUsuarioMensagem(msgA, msg);
 		return msg;
 	}
 
-	public Set<UsuarioMensagem> criarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
-		List<Usuario> list = new ArrayList<>();
-		Set<UsuarioMensagem> set = new HashSet<>();
-		
-		switch (msgA.getEscopo().toLowerCase()) {
-			case "orgao":
-				list = listaDeUsuariosPorOrgaoId(msgA);
-				break;
-			case "tipodeorgao":
-				list = listaDeUsuariosPorTipoDeOrgao(msgA);
-				break;
-			case "uf":
-				list = listaDeUsuariosPorUf(msgA);
-				break;
-			case "idusuario":
-				list = listaDeUsuarioPorId(msgA);
-				break;
-			default:
-				throw new IllegalArgumentException("Escopo desconhecido: " + msgA.getEscopo());
-		}
-		for(Usuario u : list) {
-			um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
-			set.add(um);
-		}
-		return set;
-	}
 	
-	private List<Usuario> listaDeUsuariosPorOrgaoId(MensagemAuxiliar msgA) {
-		List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-		List<Usuario> listaUsuarioPorOrgao = new ArrayList<>();
-		
-		for(String stringId : listaIds) {
-			Long id = Long.parseLong(stringId);
-			listaUsuarioPorOrgao.addAll(service.buscarUsuarioPorOrgaoId(id));
-		}
-		return listaUsuarioPorOrgao;
-	}
-
-	private List<Usuario> listaDeUsuariosPorTipoDeOrgao(MensagemAuxiliar msgA) {
-		List<String> listaTipoDeOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-		List<Usuario> listaUsuarioPorTipoDeOrgao = new ArrayList<>();
-		
-		for(String tipoDeOrgao : listaTipoDeOrgao) {
-			listaUsuarioPorTipoDeOrgao.addAll(service.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao));
-		}
-		return listaUsuarioPorTipoDeOrgao;
-	}
-	
-	private List<Usuario> listaDeUsuariosPorUf(MensagemAuxiliar msgA) {
-		List<String> listaUf = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-		List<Usuario> listaUsuarioPorUf = new ArrayList<>();
-		
-		for(String uf : listaUf) {
-			listaUsuarioPorUf.addAll(service.findByUf(uf));
-		}
-		return listaUsuarioPorUf;
-	}
-	
-	private List<Usuario> listaDeUsuarioPorId(MensagemAuxiliar msgA) {
-		List<String> listaIdDoUsuario = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
-		List<Usuario> listaUsuarioPorId = new ArrayList<>();
-
-		for(String stringId : listaIdDoUsuario) {
-			Long id = Long.parseLong(stringId);
-			Usuario usuario = service.findById(id);
-			listaUsuarioPorId.add(usuario);
-		}
-		return listaUsuarioPorId;
-	}
-
 	public Mensagem instanciarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
 		Mensagem msg = new Mensagem();
 		msg.setDescricao(msgA.getDescricao());
