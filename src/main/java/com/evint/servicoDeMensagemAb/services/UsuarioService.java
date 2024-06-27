@@ -54,6 +54,7 @@ public class UsuarioService {
 			Long id = Long.parseLong(stringId);
 			listaUsuarioPorOrgao.addAll(buscarUsuarioPorOrgaoId(id));
 		}
+		
 		return listaUsuarioPorOrgao;
 	}
 	

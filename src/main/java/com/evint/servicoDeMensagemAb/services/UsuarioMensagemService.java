@@ -48,7 +48,7 @@ public class UsuarioMensagemService {
 		return repository.save(um);
 	}
 	
-	public List<UsuarioMensagem> criarESalvarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
+	public List<UsuarioMensagem> buscarUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
 		List<Usuario> list = new ArrayList<>();
 		Set<UsuarioMensagem> set = new HashSet<>();
 		
@@ -75,6 +75,6 @@ public class UsuarioMensagemService {
 			UsuarioMensagem um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
 			set.add(um);
 		}
-		return repository.saveAll(new ArrayList<>(set));
+		return new ArrayList<>(set);
 	}
 }

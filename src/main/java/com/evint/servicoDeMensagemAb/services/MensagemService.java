@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
@@ -15,6 +16,7 @@ import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemDTO;
 import com.evint.servicoDeMensagemAb.repositories.MensagemRepository;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioMensagemRepository;
+import com.evint.servicoDeMensagemAb.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class MensagemService {
@@ -69,9 +71,15 @@ public class MensagemService {
 	}
 	
 	public List<UsuarioMensagem> CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
-		Mensagem msg = repository.save(instanciarMensagemDaMensagemAuxiliar(msgA));
-		List<UsuarioMensagem> list = uMService.criarESalvarUsuarioMensagem(msgA, msg);
-		return list;
+			Mensagem msg = instanciarMensagemDaMensagemAuxiliar(msgA); 
+			List<UsuarioMensagem> list = uMService.buscarUsuarios(msgA, msg);
+			
+			if(list.isEmpty()) {
+				throw new ResourceNotFoundException("Nenhum usuário encontrado para os argumentos informados");
+			}
+			repository.save(msg);
+			uMRepository.saveAll(list);
+			return list;
 	}
 
 	public Mensagem instanciarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
