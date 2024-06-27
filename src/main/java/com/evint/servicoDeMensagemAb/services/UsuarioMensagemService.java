@@ -2,7 +2,6 @@ package com.evint.servicoDeMensagemAb.services;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,30 +48,33 @@ public class UsuarioMensagemService {
 		return repository.save(um);
 	}
 	
-	public void criarESalvarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
+	public List<UsuarioMensagem> criarESalvarUsuarioMensagem(MensagemAuxiliar msgA, Mensagem msg) {
 		List<Usuario> list = new ArrayList<>();
 		Set<UsuarioMensagem> set = new HashSet<>();
 		
-		switch (msgA.getEscopo().toLowerCase()) {
-			case "orgao":
+		switch (msgA.getEscopo().toUpperCase()) {
+			case "ORGAOID":
 				list = usuarioService.listaDeUsuariosPorOrgaoId(msgA);
 				break;
-			case "tipodeorgao":
+			case "NOMEDOORGAO":
+				list = usuarioService.listaDeUsuariosPorNomeDoOrgao(msgA);
+				break;
+			case "TIPODEORGAO":
 				list = usuarioService.listaDeUsuariosPorTipoDeOrgao(msgA);
 				break;
-			case "uf":
+			case "UF":
 				list = usuarioService.listaDeUsuariosPorUf(msgA);
 				break;
-			case "idusuario":
+			case "USUARIOID":
 				list = usuarioService.listaDeUsuarioPorId(msgA);
 				break;
 			default:
-				throw new IllegalArgumentException("Escopo desconhecido: " + msgA.getEscopo());
+				throw new IllegalArgumentException("Escopo não encontrado: " + msgA.getEscopo().toUpperCase());
 		}
 		for(Usuario u : list) {
 			UsuarioMensagem um = new UsuarioMensagem(u, msg, Instant.now(), null, null);
 			set.add(um);
 		}
-		repository.saveAll(new ArrayList<>(set));
+		return repository.saveAll(new ArrayList<>(set));
 	}
 }

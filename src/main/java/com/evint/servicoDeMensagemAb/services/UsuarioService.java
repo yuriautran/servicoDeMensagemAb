@@ -36,7 +36,7 @@ public class UsuarioService {
 		return repository.buscarUsuarioPorOrgaoId(id);
 	}
 	
-	public List<Usuario> buscarUsuarioPorOrgaoNome(String nome) {
+	public List<Usuario> buscarUsuarioPorNomeDoOrgao(String nome) {
 		nome = nome.toUpperCase();
 		return repository.buscarUsuarioPorOrgaoNome(nome);
 	}
@@ -55,6 +55,16 @@ public class UsuarioService {
 			listaUsuarioPorOrgao.addAll(buscarUsuarioPorOrgaoId(id));
 		}
 		return listaUsuarioPorOrgao;
+	}
+	
+	public List<Usuario> listaDeUsuariosPorNomeDoOrgao(MensagemAuxiliar msgA) {
+		List<String> listaNomeDoOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
+		List<Usuario> listaUsuarioPorNomeDoOrgao = new ArrayList<>();
+		
+		for(String nomeDoOrgao : listaNomeDoOrgao) {
+			listaUsuarioPorNomeDoOrgao.addAll(buscarUsuarioPorNomeDoOrgao(nomeDoOrgao));
+		}
+		return listaUsuarioPorNomeDoOrgao;
 	}
 
 	public List<Usuario> listaDeUsuariosPorTipoDeOrgao(MensagemAuxiliar msgA) {

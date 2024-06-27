@@ -49,7 +49,6 @@ public class UsuarioMensagem implements Serializable {
 		id.setUsuario(usuario);
 	}
 	
-	@JsonIgnore
 	public Mensagem getMensagem() {
 		return id.getMensgem();
 	}

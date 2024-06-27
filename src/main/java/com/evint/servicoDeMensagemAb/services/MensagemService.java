@@ -68,13 +68,12 @@ public class MensagemService {
 		return repository.save(msg);
 	}
 	
-	public Mensagem CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
+	public List<UsuarioMensagem> CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
 		Mensagem msg = repository.save(instanciarMensagemDaMensagemAuxiliar(msgA));
-		uMService.criarESalvarUsuarioMensagem(msgA, msg);
-		return msg;
+		List<UsuarioMensagem> list = uMService.criarESalvarUsuarioMensagem(msgA, msg);
+		return list;
 	}
 
-	
 	public Mensagem instanciarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
 		Mensagem msg = new Mensagem();
 		msg.setDescricao(msgA.getDescricao());

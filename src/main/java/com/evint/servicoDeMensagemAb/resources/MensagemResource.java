@@ -1,6 +1,7 @@
 package com.evint.servicoDeMensagemAb.resources;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
+import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemDTO;
 import com.evint.servicoDeMensagemAb.services.MensagemService;
@@ -48,8 +50,8 @@ public class MensagemResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Mensagem> salvarEEnviarMensagem(@RequestBody MensagemAuxiliar msgA) {
-		Mensagem msg = service.CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(msgA);
-		return ResponseEntity.ok().body(msg);
+	public ResponseEntity<List<UsuarioMensagem>> salvarEEnviarMensagem(@RequestBody MensagemAuxiliar msgA) {
+		List<UsuarioMensagem> list = service.CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(msgA);
+		return ResponseEntity.ok().body(list);
 	}
 } 

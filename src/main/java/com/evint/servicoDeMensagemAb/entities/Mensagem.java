@@ -64,6 +64,7 @@ public class Mensagem implements Serializable {
 		this.descricao = descricao;
 	}
 	
+	@JsonIgnore
 	public Set<UsuarioMensagem> getUsuarioMensagens() {
 		return usuarioMensagens; 
 	}
@@ -84,5 +85,4 @@ public class Mensagem implements Serializable {
 		Mensagem other = (Mensagem) obj;
 		return Objects.equals(id, other.id);
 	}
-	
 }
