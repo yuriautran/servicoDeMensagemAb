@@ -1,6 +1,7 @@
 package com.evint.servicoDeMensagemAb.resources.exceptions;
 
 import java.time.Instant;
+import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,19 @@ public class ReosurceExceptionHandler {
 	}
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<StandardError> EmptyList(ResourceNotFoundException e, HttpServletRequest request){
+	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request){
 		String error = "Nenhum usuário encontrado para os argumentos informados";
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		StandardError err = new StandardError(Instant.now(), status.value(), error, request.getRequestURI());
+		StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
-
+	
+	/*
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<StandardError> noSuchElement(NoSuchElementException e, HttpServletRequest request){
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	*/
 }

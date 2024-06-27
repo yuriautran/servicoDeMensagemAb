@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.evint.servicoDeMensagemAb.entities.Usuario;
 import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioRepository;
+import com.evint.servicoDeMensagemAb.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -25,7 +26,7 @@ public class UsuarioService {
 	
 	public Usuario findById(Long id) {
 		Optional<Usuario> usuario = repository.findById(id);
-		return usuario.get();
+		return usuario.orElseThrow(() -> new ResourceNotFoundException("Não encontrado usuários para o ID: " + id));
 	}
 	
 	public List<Usuario> findByUf(String uf) {
