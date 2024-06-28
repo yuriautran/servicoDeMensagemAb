@@ -36,7 +36,4 @@ public class OrgaoResource {
 		Orgao org = service.findByNomeOrgao(nome);
 		return ResponseEntity.ok().body(org);
 	}
-	
-	
-	
 }

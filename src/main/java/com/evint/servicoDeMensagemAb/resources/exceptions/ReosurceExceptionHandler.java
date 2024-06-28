@@ -1,7 +1,6 @@
 package com.evint.servicoDeMensagemAb.resources.exceptions;
 
 import java.time.Instant;
-import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class ReosurceExceptionHandler {
 	public ResponseEntity<StandardError> illegalArgument(IllegalArgumentException e, HttpServletRequest request){
 		String error = "Escopo inesistente para esse campo";
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		StandardError err = new StandardError(Instant.now(), status.value(), error, request.getRequestURI());
+		StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
 	
@@ -30,13 +29,4 @@ public class ReosurceExceptionHandler {
 		StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
-	
-	/*
-	@ExceptionHandler(NoSuchElementException.class)
-	public ResponseEntity<StandardError> noSuchElement(NoSuchElementException e, HttpServletRequest request){
-		HttpStatus status = HttpStatus.NOT_FOUND;
-		StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
-		return ResponseEntity.status(status).body(err);
-	}
-	*/
 }

@@ -37,5 +37,4 @@ public class UsuarioMensagemResource {
 		UsuarioMensagem um = service.excluirMensagem(idUsuario, idMensagem, excluir);
 		return ResponseEntity.ok().body(um);
 	}
-	
 }

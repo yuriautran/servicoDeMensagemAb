@@ -1,9 +1,9 @@
-package com.evint.servicoDeMensagemAb.entities.json;
+package com.evint.servicoDeMensagemAb.entities.DTO;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class MensagemAuxiliar implements Serializable {
+public class MensagemParaSalvarECriarUsuarioMensagem implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -12,11 +12,11 @@ public class MensagemAuxiliar implements Serializable {
 	private String escopo;
 	private String itens;
 	
-	public MensagemAuxiliar() {
+	public MensagemParaSalvarECriarUsuarioMensagem() {
 		
 	}
 
-	public MensagemAuxiliar(String titulo, String descricao, String escopo, String itens) {
+	public MensagemParaSalvarECriarUsuarioMensagem(String titulo, String descricao, String escopo, String itens) {
 		super();
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -69,7 +69,7 @@ public class MensagemAuxiliar implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MensagemAuxiliar other = (MensagemAuxiliar) obj;
+		MensagemParaSalvarECriarUsuarioMensagem other = (MensagemParaSalvarECriarUsuarioMensagem) obj;
 		return Objects.equals(titulo, other.titulo);
 	}
 }

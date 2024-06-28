@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.Usuario;
 import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
-import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
+import com.evint.servicoDeMensagemAb.entities.DTO.MensagemParaSalvarECriarUsuarioMensagem;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioMensagemRepository;
+import com.evint.servicoDeMensagemAb.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UsuarioMensagemService {
@@ -30,10 +31,16 @@ public class UsuarioMensagemService {
 
 	public UsuarioMensagem marcarComoLida(Long idUsuario,Long idMensagem, boolean lida) {
 		UsuarioMensagem um = repository.findById(idUsuario, idMensagem);
-		
-		if (lida) {
-			um.setDataLeitura(Instant.now());	
-		} else {
+		if(um == null) {
+			throw new ResourceNotFoundException("usuarioMensagem inexistente para iDUsuario (" + idUsuario + ") e idMensagem ("+ idMensagem + ")");
+			
+		} else if (lida && um.getDataLeitura() != null) {
+			throw new IllegalArgumentException("Mensagem já lida pelo usuário em: " + um.getDataLeitura());
+				
+		} else if (lida && um.getDataLeitura() == null) {
+			um.setDataLeitura(Instant.now());
+			
+		} else if (!lida) {
 			um.setDataLeitura(null);
 		}
 		return repository.save(um);
@@ -48,7 +55,7 @@ public class UsuarioMensagemService {
 		return repository.save(um);
 	}
 	
-	public List<UsuarioMensagem> buscarUsuarios(MensagemAuxiliar msgA, Mensagem msg) {
+	public List<UsuarioMensagem> buscarUsuarios(MensagemParaSalvarECriarUsuarioMensagem msgA, Mensagem msg) {
 		List<Usuario> list = new ArrayList<>();
 		Set<UsuarioMensagem> set = new HashSet<>();
 		

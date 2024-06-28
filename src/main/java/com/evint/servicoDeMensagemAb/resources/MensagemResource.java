@@ -1,7 +1,6 @@
 package com.evint.servicoDeMensagemAb.resources;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
-import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
-import com.evint.servicoDeMensagemAb.entities.json.MensagemDTO;
+import com.evint.servicoDeMensagemAb.entities.DTO.MensagemDTO;
+import com.evint.servicoDeMensagemAb.entities.DTO.MensagemParaSalvarECriarUsuarioMensagem;
 import com.evint.servicoDeMensagemAb.services.MensagemService;
+import com.evint.servicoDeMensagemAb.services.exceptions.ResourceNotFoundException;
 
 @RestController
 @RequestMapping(value = "/mensagens")
@@ -40,6 +40,9 @@ public class MensagemResource {
 	@GetMapping(value = "/naoexcluidas/cpf/{cpf}")
 	public ResponseEntity<List<MensagemDTO>> buscarMensagensNaoExcluidas(@PathVariable("cpf") String cpf) {
 		List<MensagemDTO> list = service.buscarMensagensNaoExcluidas(cpf);
+		if(list.isEmpty()) {
+			throw new ResourceNotFoundException("Nenhum usuário encontrado para o CPF informado: " + cpf);
+		}
 		return ResponseEntity.ok().body(list);
 	}
 	
@@ -50,8 +53,8 @@ public class MensagemResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<List<UsuarioMensagem>> salvarEEnviarMensagem(@RequestBody MensagemAuxiliar msgA) {
-		List<UsuarioMensagem> list = service.CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(msgA);
+	public ResponseEntity<List<UsuarioMensagem>> salvarEEnviarMensagem(@RequestBody MensagemParaSalvarECriarUsuarioMensagem msgA) {
+		List<UsuarioMensagem> list = service.criarESalvarMensagemEUsuarioMensagem(msgA);
 		return ResponseEntity.ok().body(list);
 	}
 } 

@@ -54,5 +54,4 @@ public class UsuarioResource {
 		List<Usuario> list = service.buscarUsuarioPorTipoDeOrgao(tipodeorgao);
 		return ResponseEntity.ok().body(list);
 	}
-	
 }

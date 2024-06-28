@@ -8,12 +8,11 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.evint.servicoDeMensagemAb.entities.Mensagem;
 import com.evint.servicoDeMensagemAb.entities.UsuarioMensagem;
-import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
-import com.evint.servicoDeMensagemAb.entities.json.MensagemDTO;
+import com.evint.servicoDeMensagemAb.entities.DTO.MensagemDTO;
+import com.evint.servicoDeMensagemAb.entities.DTO.MensagemParaSalvarECriarUsuarioMensagem;
 import com.evint.servicoDeMensagemAb.repositories.MensagemRepository;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioMensagemRepository;
 import com.evint.servicoDeMensagemAb.services.exceptions.ResourceNotFoundException;
@@ -70,19 +69,19 @@ public class MensagemService {
 		return repository.save(msg);
 	}
 	
-	public List<UsuarioMensagem> CriarESalvarMensagemEUsuarioMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
-			Mensagem msg = instanciarMensagemDaMensagemAuxiliar(msgA); 
+	public List<UsuarioMensagem> criarESalvarMensagemEUsuarioMensagem(MensagemParaSalvarECriarUsuarioMensagem msgA) {
+			Mensagem msg = instanciarMensagem(msgA); 
 			List<UsuarioMensagem> list = uMService.buscarUsuarios(msgA, msg);
 			
 			if(list.isEmpty()) {
-				throw new ResourceNotFoundException("Nenhum usuário encontrado para os argumentos informados");
+				throw new ResourceNotFoundException("Nenhum usuário encontrado para os argumentos informados (Escopo: " + msgA.getEscopo() + "/Itens: " + msgA.getItens() + "). " + "Mensagem não criada.");
 			}
 			repository.save(msg);
 			uMRepository.saveAll(list);
 			return list;
 	}
 
-	public Mensagem instanciarMensagemDaMensagemAuxiliar(MensagemAuxiliar msgA) {
+	public Mensagem instanciarMensagem(MensagemParaSalvarECriarUsuarioMensagem msgA) {
 		Mensagem msg = new Mensagem();
 		msg.setDescricao(msgA.getDescricao());
 		msg.setTitulo(msgA.getTitulo());

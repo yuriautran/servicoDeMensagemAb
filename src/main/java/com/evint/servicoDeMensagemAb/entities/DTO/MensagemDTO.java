@@ -1,4 +1,4 @@
-package com.evint.servicoDeMensagemAb.entities.json;
+package com.evint.servicoDeMensagemAb.entities.DTO;
 
 import java.time.Instant;
 import java.util.Objects;

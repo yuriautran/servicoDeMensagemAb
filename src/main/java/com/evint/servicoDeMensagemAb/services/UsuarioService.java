@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.evint.servicoDeMensagemAb.entities.Usuario;
-import com.evint.servicoDeMensagemAb.entities.json.MensagemAuxiliar;
+import com.evint.servicoDeMensagemAb.entities.DTO.MensagemParaSalvarECriarUsuarioMensagem;
 import com.evint.servicoDeMensagemAb.repositories.UsuarioRepository;
 import com.evint.servicoDeMensagemAb.services.exceptions.ResourceNotFoundException;
 
@@ -26,7 +26,7 @@ public class UsuarioService {
 	
 	public Usuario findById(Long id) {
 		Optional<Usuario> usuario = repository.findById(id);
-		return usuario.orElseThrow(() -> new ResourceNotFoundException("Não encontrado usuários para o ID: " + id));
+		return usuario.orElseThrow(() -> new ResourceNotFoundException("Não encontrado usuário para o ID: " + id + ". Mensagem não criada."));
 	}
 	
 	public List<Usuario> findByUf(String uf) {
@@ -47,7 +47,7 @@ public class UsuarioService {
 		return repository.buscarUsuarioPorTipoDeOrgao(tipoDeOrgao);
 	}
 	
-	public List<Usuario> listaDeUsuariosPorOrgaoId(MensagemAuxiliar msgA) {
+	public List<Usuario> listaDeUsuariosPorOrgaoId(MensagemParaSalvarECriarUsuarioMensagem msgA) {
 		List<String> listaIds = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 		List<Usuario> listaUsuarioPorOrgao = new ArrayList<>();
 		
@@ -59,7 +59,7 @@ public class UsuarioService {
 		return listaUsuarioPorOrgao;
 	}
 	
-	public List<Usuario> listaDeUsuariosPorNomeDoOrgao(MensagemAuxiliar msgA) {
+	public List<Usuario> listaDeUsuariosPorNomeDoOrgao(MensagemParaSalvarECriarUsuarioMensagem msgA) {
 		List<String> listaNomeDoOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 		List<Usuario> listaUsuarioPorNomeDoOrgao = new ArrayList<>();
 		
@@ -69,7 +69,7 @@ public class UsuarioService {
 		return listaUsuarioPorNomeDoOrgao;
 	}
 
-	public List<Usuario> listaDeUsuariosPorTipoDeOrgao(MensagemAuxiliar msgA) {
+	public List<Usuario> listaDeUsuariosPorTipoDeOrgao(MensagemParaSalvarECriarUsuarioMensagem msgA) {
 		List<String> listaTipoDeOrgao = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 		List<Usuario> listaUsuarioPorTipoDeOrgao = new ArrayList<>();
 		
@@ -79,7 +79,7 @@ public class UsuarioService {
 		return listaUsuarioPorTipoDeOrgao;
 	}
 	
-	public List<Usuario> listaDeUsuariosPorUf(MensagemAuxiliar msgA) {
+	public List<Usuario> listaDeUsuariosPorUf(MensagemParaSalvarECriarUsuarioMensagem msgA) {
 		List<String> listaUf = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 		List<Usuario> listaUsuarioPorUf = new ArrayList<>();
 		
@@ -89,7 +89,7 @@ public class UsuarioService {
 		return listaUsuarioPorUf;
 	}
 	
-	public List<Usuario> listaDeUsuarioPorId(MensagemAuxiliar msgA) {
+	public List<Usuario> listaDeUsuarioPorId(MensagemParaSalvarECriarUsuarioMensagem msgA) {
 		List<String> listaIdDoUsuario = new ArrayList<>(Arrays.asList(msgA.getItens().split(",")));
 		List<Usuario> listaUsuarioPorId = new ArrayList<>();
 
