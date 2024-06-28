@@ -33,8 +33,8 @@ public class UsuarioMensagemResource {
 	}
 	
 	@PostMapping(value = "/excluir")
-	public ResponseEntity<UsuarioMensagem> excluirMensagem(@RequestParam Long idUsuario, @RequestParam Long idMensagem, @RequestParam boolean excluir) {
-		UsuarioMensagem um = service.excluirMensagem(idUsuario, idMensagem, excluir);
+	public ResponseEntity<UsuarioMensagem> excluirMensagem(@RequestParam Long idUsuario, @RequestParam Long idMensagem) {
+		UsuarioMensagem um = service.excluirMensagem(idUsuario, idMensagem);
 		return ResponseEntity.ok().body(um);
 	}
 }

@@ -46,12 +46,17 @@ public class UsuarioMensagemService {
 		return repository.save(um);
 	}
 	
-	public UsuarioMensagem excluirMensagem(Long idUsuario,Long idMensagem, boolean excluir) {
+	public UsuarioMensagem excluirMensagem(Long idUsuario,Long idMensagem) {
 		UsuarioMensagem um = repository.findById(idUsuario, idMensagem);
+		if(um == null) {
+			throw new ResourceNotFoundException("usuarioMensagem inexistente para iDUsuario (" + idUsuario + ") e idMensagem ("+ idMensagem + ")");
 		
-		if (excluir) {
-			um.setDataExclusao(Instant.now());	
-		} 
+		} else if (um.getDataExclusao() != null) {
+			throw new IllegalArgumentException("Mensagem já excluída pelo usuário em: " + um.getDataExclusao());
+			
+		} else if (um.getDataExclusao() == null) {
+			um.setDataExclusao(Instant.now());
+		}
 		return repository.save(um);
 	}
 	
