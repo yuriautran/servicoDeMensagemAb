@@ -20,12 +20,6 @@ public class UsuarioMensagemResource {
 	@Autowired
 	private UsuarioMensagemService service;
 	
-	@GetMapping
-	public ResponseEntity<List<UsuarioMensagem>> findAll() {
-		List<UsuarioMensagem> list = service.findAll();
-		return ResponseEntity.ok().body(list);
-	}
-	
 	@PostMapping(value = "/lidaounao")
 	public ResponseEntity<UsuarioMensagem> marcarComoLida(@RequestParam Long idUsuario, @RequestParam Long idMensagem, @RequestParam boolean lida) {
 		UsuarioMensagem um = service.marcarComoLida(idUsuario, idMensagem, lida);
@@ -37,4 +31,12 @@ public class UsuarioMensagemResource {
 		UsuarioMensagem um = service.excluirMensagem(idUsuario, idMensagem);
 		return ResponseEntity.ok().body(um);
 	}
+	
+	/*
+	@GetMapping
+	public ResponseEntity<List<UsuarioMensagem>> findAll() {
+		List<UsuarioMensagem> list = service.findAll();
+		return ResponseEntity.ok().body(list);
+	}
+	*/
 }

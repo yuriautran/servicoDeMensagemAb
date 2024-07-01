@@ -36,7 +36,7 @@ public class UsuarioMensagemService {
 			
 		} else if (lida && um.getDataLeitura() != null) {
 			throw new IllegalArgumentException("Mensagem já lida pelo usuário em: " + um.getDataLeitura());
-				
+			
 		} else if (lida && um.getDataLeitura() == null) {
 			um.setDataLeitura(Instant.now());
 			
@@ -53,6 +53,9 @@ public class UsuarioMensagemService {
 		
 		} else if (um.getDataExclusao() != null) {
 			throw new IllegalArgumentException("Mensagem já excluída pelo usuário em: " + um.getDataExclusao());
+			
+		} else if(um.getDataLeitura() == null) {
+			throw new IllegalArgumentException("Mensagem ainda não lida pelo usuário.");
 			
 		} else if (um.getDataExclusao() == null) {
 			um.setDataExclusao(Instant.now());

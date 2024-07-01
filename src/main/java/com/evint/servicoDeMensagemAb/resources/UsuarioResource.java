@@ -19,6 +19,7 @@ public class UsuarioResource {
 	@Autowired
 	private UsuarioService service;
 	
+	/*
 	@GetMapping
 	public ResponseEntity<List<Usuario>> findAll() {
 		List<Usuario> list = service.findAll();
@@ -54,4 +55,5 @@ public class UsuarioResource {
 		List<Usuario> list = service.buscarUsuarioPorTipoDeOrgao(tipodeorgao);
 		return ResponseEntity.ok().body(list);
 	}
+	*/
 }

@@ -74,7 +74,7 @@ public class MensagemService {
 			List<UsuarioMensagem> list = uMService.buscarUsuarios(msgA, msg);
 			
 			if(list.isEmpty()) {
-				throw new ResourceNotFoundException("Nenhum usuário encontrado para os argumentos informados (Escopo: " + msgA.getEscopo() + "/Itens: " + msgA.getItens() + "). " + "Mensagem não criada.");
+				throw new ResourceNotFoundException("Nenhum usuário encontrado para o conteúdo do campo 'Itens': " + msgA.getItens() + "). " + "Mensagem não criada.");
 			}
 			repository.save(msg);
 			uMRepository.saveAll(list);
